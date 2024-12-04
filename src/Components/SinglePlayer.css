@@ -1,0 +1,27 @@
+.player-details {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.single-player {
+  text-align: center;
+  padding: 16px;
+}
+
+.player-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.single-player h2 {
+  font-size: 2em;
+  margin-bottom: 8px;
+}
+
+.single-player p {
+  margin: 4px 0;
+}

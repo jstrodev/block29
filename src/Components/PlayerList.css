@@ -1,0 +1,38 @@
+.player-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.player-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.player-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.player-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+
+.player-card p {
+  margin: 4px 0;
+}
+
+.player-card a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.player-card a:hover {
+  text-decoration: underline;
+}
