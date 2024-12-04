@@ -5,6 +5,13 @@ import './PlayerList.css';
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [newPlayer, setNewPlayer] = useState({
+    name: '',
+    breed: '',
+    status: '',
+    imageUrl: ''
+  });
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetch('https://fsa-puppy-bowl.herokuapp.com/api/2408-ftb-et-web-am/players') 
@@ -19,6 +26,55 @@ const PlayerList = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleDelete = (id) => {
+    fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2408-ftb-et-web-am/players/${id}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.ok) {
+          setPlayers(players.filter(player => player.id !== id));
+        } else {
+          console.error('Failed to delete player');
+        }
+      })
+      .catch(error => console.error('Error deleting player:', error));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewPlayer(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch('https://fsa-puppy-bowl.herokuapp.com/api/2408-ftb-et-web-am/players', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newPlayer)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.data && data.data.player) {
+          console.log('Added player:', data);
+          setPlayers([...players, data.data.player]);
+          setNewPlayer({ name: '', breed: '', status: '', imageUrl: '' });
+          setSuccessMessage('New player successfully added');
+        } else {
+          console.error('Failed to add player:', data.error);
+          setSuccessMessage('Failed to add player');
+        }
+      })
+      .catch(error => {
+        console.error('Error adding player:', error);
+        setSuccessMessage('Error adding player');
+      });
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -35,13 +91,53 @@ const PlayerList = () => {
               <h2>{player.name}</h2>
               <p>Breed: {player.breed}</p>
               <p>Status: {player.status}</p>
-              <Link to={`/player/${player.id}`}>View Player</Link>
+              <div className="button-group">
+                <Link to={`/player/${player.id}`} className="button">View Player</Link>
+                <button onClick={() => handleDelete(player.id)} className="button">Delete</button>
+              </div>
             </div>
           ))
         ) : (
           <div>No players found.</div>
         )}
       </div>
+      {successMessage && <div className="success-message">{successMessage}</div>}
+      <h2>Add Player</h2>
+      <form onSubmit={handleSubmit} className="add-player-form">
+        <input
+          type="text"
+          name="name"
+          value={newPlayer.name}
+          onChange={handleChange}
+          placeholder="Name"
+          required
+        />
+        <input
+          type="text"
+          name="breed"
+          value={newPlayer.breed}
+          onChange={handleChange}
+          placeholder="Breed"
+          required
+        />
+        <input
+          type="text"
+          name="status"
+          value={newPlayer.status}
+          onChange={handleChange}
+          placeholder="Status"
+          required
+        />
+        <input
+          type="text"
+          name="imageUrl"
+          value={newPlayer.imageUrl}
+          onChange={handleChange}
+          placeholder="Image URL"
+          required
+        />
+        <button type="submit" className="button">Add</button>
+      </form>
     </div>
   );
 };

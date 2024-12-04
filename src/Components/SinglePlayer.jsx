@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './SinglePlayer.css'; // Create a CSS file for styling if needed
 
 const SinglePlayer = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,6 +22,20 @@ const SinglePlayer = () => {
       });
   }, [id]);
 
+  const handleDelete = () => {
+    fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2408-ftb-et-web-am/players/${id}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.ok) {
+          navigate('/');
+        } else {
+          console.error('Failed to delete player');
+        }
+      })
+      .catch(error => console.error('Error deleting player:', error));
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -37,6 +52,7 @@ const SinglePlayer = () => {
       <p>Status: {player.status}</p>
       <p>Created At: {new Date(player.createdAt).toLocaleDateString()}</p>
       <p>Updated At: {new Date(player.updatedAt).toLocaleDateString()}</p>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 };
