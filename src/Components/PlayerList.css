@@ -46,18 +46,26 @@
 
 .button {
   display: inline-block;
-  padding: 8px 16px;
+  background-color: #0056b3;
+  padding: 4px 8px; /* Make the buttons smaller */
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
-  color: white;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
+  font-size: 0.875em; /* Reduce the text size */
 }
 
 .button:hover {
   background-color: #0056b3;
+}
+
+.button.delete {
+  background-color: #dc3545; /* Red color for delete button */
+}
+
+.button.delete:hover {
+  background-color: #c82333; /* Darker red on hover */
 }
 
 .add-player-form {
@@ -79,4 +87,14 @@
 
 .add-player-form h2 {
   text-align: left;
+}
+
+.search-bar {
+  width: 100%; /* Make the search bar longer */
+  max-width: 400px; /* Set a maximum width */
+  padding: 8px;
+  margin-bottom: 24px; /* Add more space between the search bar and the player cards */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
 }

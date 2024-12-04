@@ -5,6 +5,8 @@ import './PlayerList.css';
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPlayers, setFilteredPlayers] = useState([]);
   const [newPlayer, setNewPlayer] = useState({
     name: '',
     breed: '',
@@ -26,6 +28,14 @@ const PlayerList = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    setFilteredPlayers(
+      players.filter(player =>
+        player.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, players]);
 
   const handleDelete = (id) => {
     fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2408-ftb-et-web-am/players/${id}`, {
@@ -86,9 +96,16 @@ const PlayerList = () => {
   return (
     <div>
       <h1>All Players</h1>
+      <input
+        type="text"
+        placeholder="Search players by name"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar"
+      />
       <div className="player-list">
-        {Array.isArray(players) && players.length > 0 ? (
-          players.map(player => ( // Ensure players is an array
+        {Array.isArray(filteredPlayers) && filteredPlayers.length > 0 ? (
+          filteredPlayers.map(player => ( // Ensure players is an array
             <div key={player.id} className="player-card">
               <img src={player.imageUrl} alt={player.name} className="player-image" />
               <h2>{player.name}</h2>
@@ -96,7 +113,7 @@ const PlayerList = () => {
               <p>Status: {player.status}</p>
               <div className="button-group">
                 <Link to={`/player/${player.id}`} className="button">View Player</Link>
-                <button onClick={() => handleDelete(player.id)} className="button">Delete</button>
+                <button onClick={() => handleDelete(player.id)} className="button delete">Delete</button>
               </div>
             </div>
           ))
