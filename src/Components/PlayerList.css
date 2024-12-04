@@ -14,8 +14,9 @@
 }
 
 .player-image {
-  width: 100%;
-  height: auto;
+  width: 150px; /* Set a fixed width */
+  height: 150px; /* Set a fixed height */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
   border-radius: 8px;
 }
 
@@ -74,4 +75,8 @@
 
 .add-player-form .button {
   align-self: flex-start;
+}
+
+.add-player-form h2 {
+  text-align: left;
 }

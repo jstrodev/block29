@@ -25,3 +25,12 @@
 .single-player p {
   margin: 4px 0;
 }
+
+nav a {
+  color: white; /* Ensure text color is white */
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}

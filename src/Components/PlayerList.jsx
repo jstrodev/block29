@@ -51,6 +51,7 @@ const PlayerList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSuccessMessage(''); // Clear success message before submitting
     fetch('https://fsa-puppy-bowl.herokuapp.com/api/2408-ftb-et-web-am/players', {
       method: 'POST',
       headers: {
@@ -60,11 +61,13 @@ const PlayerList = () => {
     })
       .then(response => response.json())
       .then(data => {
+        console.log('Response data:', data); // Log the entire response data
         if (data.success && data.data && data.data.player) {
           console.log('Added player:', data);
-          setPlayers([...players, data.data.player]);
+          setPlayers(prevPlayers => [...prevPlayers, data.data.player]); // Update state correctly
           setNewPlayer({ name: '', breed: '', status: '', imageUrl: '' });
           setSuccessMessage('New player successfully added');
+          setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
         } else {
           console.error('Failed to add player:', data.error);
           setSuccessMessage('Failed to add player');

@@ -45,14 +45,19 @@ const SinglePlayer = () => {
   }
 
   return (
-    <div className="single-player">
-      <img src={player.imageUrl} alt={player.name} className="player-image" />
-      <h2>{player.name}</h2>
-      <p>Breed: {player.breed}</p>
-      <p>Status: {player.status}</p>
-      <p>Created At: {new Date(player.createdAt).toLocaleDateString()}</p>
-      <p>Updated At: {new Date(player.updatedAt).toLocaleDateString()}</p>
-      <button onClick={handleDelete}>Delete</button>
+    <div>
+      <nav>
+        <a href="/">Home</a>
+      </nav>
+      <div className="single-player">
+        <img src={player.imageUrl} alt={player.name} className="player-image" />
+        <h2>{player.name}</h2>
+        <p>Breed: {player.breed}</p>
+        <p>Status: {player.status}</p>
+        <p>Created At: {new Date(player.createdAt).toLocaleDateString()}</p>
+        <p>Updated At: {new Date(player.updatedAt).toLocaleDateString()}</p>
+        <button onClick={handleDelete}>Delete</button>
+      </div>
     </div>
   );
 };
